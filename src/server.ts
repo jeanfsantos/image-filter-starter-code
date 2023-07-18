@@ -46,7 +46,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
       res.on('finish', async () => {
         deleteLocalFiles([filePath]);
       });
-    } catch (e:  unknown) {
+    } catch (e) {
       if (e instanceof Error) {
         console.error((e as Error).message)
       } else {
