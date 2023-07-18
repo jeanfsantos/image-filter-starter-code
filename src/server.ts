@@ -28,6 +28,33 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   //   the filtered image file [!!TIP res.sendFile(filteredpath); might be useful]
 
   /**************************************************************************** */
+  app.get('/filteredimage', async (req, res) => {
+    try {
+      const { image_url } = req.query;
+  
+      // reference: https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url
+      const checkUrlRegExp = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+      const regex = new RegExp(checkUrlRegExp);
+      
+      if (!image_url.match(regex)) {
+        return res.status(400).send('image_url is required.');
+      }
+  
+      const filePath = await filterImageFromURL(image_url);
+  
+      res.status(200).sendFile(filePath);
+      res.on('finish', async () => {
+        deleteLocalFiles([filePath]);
+      });
+    } catch (e:  unknown) {
+      if (e instanceof Error) {
+        console.error((e as Error).message)
+      } else {
+        console.error(e);
+      }
+      res.status(500).send('Unexpected error.')
+    }
+  });
 
   //! END @TODO1
   
