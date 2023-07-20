@@ -50,3 +50,7 @@ Add your own domain name and have it point to the running services (try adding a
 ### Elastic Beanstalk URL
 
 http://image-filter-starter-code-dev.us-west-2.elasticbeanstalk.com/
+
+### Repository URL
+
+https://github.com/jeanfsantos/image-filter-starter-code
